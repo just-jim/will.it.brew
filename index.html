@@ -5,6 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple Validation Website</title>
     <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        select {
+            text-align: center;
+            text-align-last: center;
+        }
+        input[type="date"] {
+            text-align: center;
+        }
         #validationMessage {
             margin-top: 10px;
             font-weight: bold;
@@ -12,25 +27,28 @@
     </style>
 </head>
 <body>
-<h1>Simple Validation Website</h1>
+<h1>Potion brewing date validator</h1>
 
-<label for="options">Choose an option:</label>
-<select id="options">
-    <option value="A">A</option>
-    <option value="B">B</option>
-    <option value="C">C</option>
+<label for="options">Potion:</label>
+<select id="options" onchange="validateSelection()">
+    <option value="A">Felix Felicis</option>
+    <option value="B">Pollyjuice</option>
+    <option value="C">Mandrake Restorative</option>
+    <option value="D">Wolfsbane</option>
+    <option value="E">Doxycide</option>
+    <option value="F">Babbling Beverage</option>
+    <option value="G">Polyjuice</option>
+    <option value="H">Amortentia</option>
+    <option value="I">Invigoration Draught</option>
 </select>
 
 <br><br>
 
 <label for="datePicker">Select a date:</label>
-<input type="date" id="datePicker">
 
-<br><br>
-
-<button onclick="validateSelection()">Validate</button>
-
-<div id="validationMessage"></div>
+<input type="date" id="datePicker" onchange="validateSelection()">
+<br>
+<div id="validationMessage"> - </div>
 
 <script>
     document.getElementById('datePicker').valueAsDate = new Date();
@@ -38,23 +56,28 @@
         const option = document.getElementById('options').value;
         const date = document.getElementById('datePicker').value;
         const validationMessage = document.getElementById('validationMessage');
+        const optionText = document.getElementById('options').selectedOptions[0].text;
 
         // Check if the date is not empty and is properly formatted
         if (date) {
             const selectedDate = new Date(date);
             const day = selectedDate.getDate();
-            const month = selectedDate.getMonth() + 1; // Months are zero-based
+            const month = selectedDate.getMonth() + 1;
 
             // Check if option B is selected and the date is 05/10 of any year
-            if (option === 'B' && day === 5 && month === 10) {
-                validationMessage.textContent = 'Validation successful!';
+            if (option !== 'B'){
+                validationMessage.innerHTML = `Potion <b>${optionText}</b> can be brewed on ${date}`;
+                validationMessage.style.color = 'green';
+            }
+            else if (option === 'B' && day === 5 && month === 10) {
+                validationMessage.innerHTML = `Potion ${optionText} can be brewed on ${date}`;
                 validationMessage.style.color = 'green';
             } else {
-                validationMessage.textContent = 'Validation failed.';
+                validationMessage.innerHTML = `${date} is not a valid date to brew the ${optionText} potion`;
                 validationMessage.style.color = 'red';
             }
         } else {
-            validationMessage.textContent = 'Please select a valid date.';
+            validationMessage.innerHTML = `${date} is not a valid date to brew the ${optionText} potion`;
             validationMessage.style.color = 'red';
         }
     }
