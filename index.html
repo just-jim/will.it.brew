@@ -27,7 +27,7 @@
     </style>
 </head>
 <body>
-<h1>Potion brewing date validator</h1>
+<h1>Will it Brew?</h1>
 
 <label for="options">Potion:</label>
 <select id="options" onchange="validateSelection()">
@@ -44,7 +44,7 @@
 
 <br><br>
 
-<label for="datePicker">Select a date:</label>
+<label for="datePicker">Brewing date</label>
 
 <input type="date" id="datePicker" onchange="validateSelection()">
 <br>
@@ -58,28 +58,36 @@
         const validationMessage = document.getElementById('validationMessage');
         const optionText = document.getElementById('options').selectedOptions[0].text;
 
-        // Check if the date is not empty and is properly formatted
-        if (date) {
-            const selectedDate = new Date(date);
-            const day = selectedDate.getDate();
-            const month = selectedDate.getMonth() + 1;
 
-            // Check if option B is selected and the date is 05/10 of any year
-            if (option !== 'B'){
-                validationMessage.innerHTML = `Potion <b>${optionText}</b> can be brewed on ${date}`;
-                validationMessage.style.color = 'green';
-            }
-            else if (option === 'B' && day === 5 && month === 10) {
-                validationMessage.innerHTML = `Potion ${optionText} can be brewed on ${date}`;
+        // Check if the date is not empty and is properly formatted
+
+        const selectedDate = new Date(date);
+        const day = selectedDate.getDate();
+        const month = selectedDate.getMonth() + 1;
+        const year = selectedDate.getFullYear();
+        const dayStr = day.toString().padStart(2, '0')
+        const monthStr = month.toString().padStart(2, '0')
+        const validMessage = `<b>The ${optionText}</b> potion can be brewed on ${dayStr}/${monthStr}/${year}`;
+        const invalidMessage = `${dayStr}/${monthStr}/${year} is not a valid date to brew the ${optionText} potion`;
+
+        // Check if option B is selected and the date is 05/10 of any year
+        if(option !== 'B'){
+            if((day*month+selectedDate.getFullYear()+optionText.length) % 3 === 0){
+                validationMessage.innerHTML = validMessage;
                 validationMessage.style.color = 'green';
             } else {
-                validationMessage.innerHTML = `${date} is not a valid date to brew the ${optionText} potion`;
+                validationMessage.innerHTML = invalidMessage;
                 validationMessage.style.color = 'red';
             }
+        }
+        else if (day === 5 && month === 10) {
+            validationMessage.innerHTML = validMessage;
+            validationMessage.style.color = 'green';
         } else {
-            validationMessage.innerHTML = `${date} is not a valid date to brew the ${optionText} potion`;
+            validationMessage.innerHTML = invalidMessage;
             validationMessage.style.color = 'red';
         }
+
     }
 </script>
 </body>
