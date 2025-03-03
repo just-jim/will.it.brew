@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+    <link id="u-page-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Berkshire+Swash:400">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Validation Website</title>
+    <title>Will it brew?</title>
     <style>
         body {
             display: flex;
@@ -12,43 +14,76 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            font-family: "Berkshire Swash";
+            background-color: black;
+            font-size: 1.2em;
+            background-image: url('moon bg.jpeg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
         }
-        select {
+        H1 {
+            margin: 0 50px;
+            color: #ff9600 !important;
+            font-size: 2.5em;
+        }
+
+        select, input[type="date"] {
             text-align: center;
-            text-align-last: center;
+            font-size: 1.2em;
         }
-        input[type="date"] {
-            text-align: center;
+
+        label {
+            color: #ff9600 !important;
+            font-size: 1.2em;
+            margin-bottom: 10px;
         }
+
         #validationMessage {
             margin-top: 10px;
-            font-weight: bold;
+            font-size: 1.5em;
+        }
+
+        img {
+            width: 500px;
+        }
+
+        .frame {
+            padding: 20px;
+            border-radius: 15px;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 5px solid black;
         }
     </style>
 </head>
 <body>
-<h1>Will it Brew?</h1>
-
-<label for="options">Potion:</label>
-<select id="options" onchange="validateSelection()">
-    <option value="A">Felix Felicis</option>
-    <option value="B">Pollyjuice</option>
-    <option value="C">Mandrake Restorative</option>
-    <option value="D">Wolfsbane</option>
-    <option value="E">Doxycide</option>
-    <option value="F">Babbling Beverage</option>
-    <option value="G">Polyjuice</option>
-    <option value="H">Amortentia</option>
-    <option value="I">Invigoration Draught</option>
-</select>
-
+<img src="will it brew.png" alt="Will it Brew?">
+<!--
+<H1>Will it Brew?</H1>
 <br><br>
-
-<label for="datePicker">Brewing date</label>
-
-<input type="date" id="datePicker" onchange="validateSelection()">
+-->
+<div class="frame">
+    <label for="options">Potion:</label>
+    <select id="options" onchange="validateSelection()">
+        <option value="A">Felix Felicis</option>
+        <option value="B">Pollyjuice</option>
+        <option value="C">Mandrake Restorative</option>
+        <option value="D">Wolfsbane</option>
+        <option value="E">Doxycide</option>
+        <option value="F">Babbling Beverage</option>
+        <option value="G">Polyjuice</option>
+        <option value="H">Amortentia</option>
+        <option value="I">Invigoration Draught</option>
+    </select>
+    <br>
+    <label for="datePicker">Brewing date</label>
+    <input type="date" id="datePicker" onchange="validateSelection()">
+</div>
 <br>
-<div id="validationMessage"> - </div>
+<div class="frame" id="validationMessage"></div>
 
 <script>
     document.getElementById('datePicker').valueAsDate = new Date();
@@ -57,7 +92,8 @@
         const date = document.getElementById('datePicker').value;
         const validationMessage = document.getElementById('validationMessage');
         const optionText = document.getElementById('options').selectedOptions[0].text;
-
+        const green = '#33a033';
+        const red = '#f24646';
 
         // Check if the date is not empty and is properly formatted
 
@@ -74,20 +110,19 @@
         if(option !== 'B'){
             if((day*month+selectedDate.getFullYear()+optionText.length) % 3 === 0){
                 validationMessage.innerHTML = validMessage;
-                validationMessage.style.color = 'green';
+                validationMessage.style.color = green;
             } else {
                 validationMessage.innerHTML = invalidMessage;
-                validationMessage.style.color = 'red';
+                validationMessage.style.color = red;
             }
         }
         else if (day === 5 && month === 10) {
             validationMessage.innerHTML = validMessage;
-            validationMessage.style.color = 'green';
+            validationMessage.style.color = green;
         } else {
             validationMessage.innerHTML = invalidMessage;
-            validationMessage.style.color = 'red';
+            validationMessage.style.color = red;
         }
-
     }
 </script>
 </body>
